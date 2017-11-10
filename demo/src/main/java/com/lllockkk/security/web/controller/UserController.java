@@ -1,0 +1,69 @@
+package com.lllockkk.security.web.controller;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import com.lllockkk.security.dto.User;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by L on 2017/8/21.
+ */
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+    @GetMapping
+    @JsonView(User.UserSimpleView.class)
+    public List<User> query(@RequestParam String username) {
+        System.out.println(username);
+        List<User> users = new ArrayList<>();
+        users.add(new User());
+        users.add(new User());
+        users.add(new User());
+        return users;
+    }
+
+    @GetMapping("/{id:\\d+}")
+    @JsonView(User.UserDetailView.class)
+    public User getInfo(@PathVariable String id) {
+        System.out.println(id);
+        User user = new User();
+        user.setUsername("tom");
+        user.setPassword("123");
+        return user;
+    }
+
+    @PostMapping
+    public User create(@Valid @RequestBody User user, BindingResult errors) {
+        if (errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(error -> System.out.println(error.getDefaultMessage()));
+        }
+
+        System.out.println(ReflectionToStringBuilder.toString(user, ToStringStyle.MULTI_LINE_STYLE));
+        user.setId("1");
+        return user;
+    }
+
+    @PutMapping
+    public User update(@Valid @RequestBody User user, BindingResult errors) {
+        if (errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(error -> System.out.println(error.getDefaultMessage()) );
+        }
+
+        System.out.println(ReflectionToStringBuilder.toString(user, ToStringStyle.MULTI_LINE_STYLE));
+        user.setId("1");
+        return user;
+    }
+
+    @DeleteMapping("/{id:\\d+}")
+    public void delete(@PathVariable String id) {
+        System.out.println(id);
+    }
+}
