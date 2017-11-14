@@ -9,9 +9,15 @@ spring:
   session:
     store-type: none
 
-security:
-  basic:
-    enabled: false
+# 是否启用security
+#security:
+#  basic:
+#    enabled: false
+lllockkk:
+  security:
+    browser:
+      loginPage: /demo-login.html
+
 
 
 

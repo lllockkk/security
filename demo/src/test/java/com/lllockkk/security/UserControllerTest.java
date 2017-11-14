@@ -50,7 +50,7 @@ public class UserControllerTest {
 
     @Test
     public void whenGetInfoSuccess() throws Exception{
-        String result = mockMvc.perform(get("/user/1")
+        String result = mockMvc.perform(get("/user/2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("tom"))
