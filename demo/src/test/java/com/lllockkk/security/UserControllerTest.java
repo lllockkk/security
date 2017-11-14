@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -94,5 +95,14 @@ public class UserControllerTest {
     public void whenDeleteSuccess() throws Exception {
         mockMvc.perform(delete("/user/1").contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void whenUploadSuccess() throws Exception {
+        String result = mockMvc.perform(fileUpload("/file")
+                .file(new MockMultipartFile("multipartFile", "test.txt", MediaType.MULTIPART_FORM_DATA_VALUE, "hello upload".getBytes())))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        System.out.println(result);
     }
 }

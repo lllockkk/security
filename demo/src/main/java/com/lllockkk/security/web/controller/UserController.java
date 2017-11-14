@@ -2,6 +2,10 @@ package com.lllockkk.security.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.lllockkk.security.dto.User;
+import com.lllockkk.security.exception.UserNotExistException;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.validation.BindingResult;
@@ -32,8 +36,11 @@ public class UserController {
 
     @GetMapping("/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
-    public User getInfo(@PathVariable String id) {
-        System.out.println(id);
+    @ApiOperation("查寻用户详情")
+    public User getInfo(@ApiParam("用户名id") @PathVariable String id) {
+        if ("1".equals(id))
+            throw new UserNotExistException(id);
+
         User user = new User();
         user.setUsername("tom");
         user.setPassword("123");

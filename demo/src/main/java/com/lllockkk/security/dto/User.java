@@ -2,6 +2,7 @@ package com.lllockkk.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.lllockkk.security.validator.MyConstraint;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Past;
@@ -23,6 +24,7 @@ public class User {
     private String password;
 
     @Past(message = "生日必须是过去的时间")
+    @ApiModelProperty("生日")
     private Date birthday;
     public User() {
     }
