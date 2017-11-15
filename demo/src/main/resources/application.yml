@@ -16,7 +16,8 @@ spring:
 lllockkk:
   security:
     browser:
-      loginPage: /demo-login.html
+      loginPage: /login.html
+      loginType: JSON
 
 
 
