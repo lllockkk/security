@@ -18,6 +18,10 @@ lllockkk:
     browser:
       loginPage: /login.html
       loginType: JSON
+    code:
+      image:
+        length: 4
+        url: /user/*
 
 
 

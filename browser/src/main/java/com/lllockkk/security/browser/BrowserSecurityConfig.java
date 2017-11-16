@@ -1,6 +1,7 @@
 package com.lllockkk.security.browser;
 
 import com.lllockkk.security.core.properties.SecurityProperties;
+import com.lllockkk.security.core.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Created by L on 2017/11/14.
@@ -21,16 +23,20 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecurityProperties securityProperties;
 
     @Autowired
-//    @Qualifier("myAuthenticationSuccessHandler")
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-//    @Qualifier("myAuthenticationFailureHanlder")
     private AuthenticationFailureHandler authenticationFailureHanlder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setAuthenticationFailureHandler(authenticationFailureHanlder);
+        validateCodeFilter.setSecurityProperties(securityProperties);
+        validateCodeFilter.afterPropertiesSet();
+
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+            .formLogin()
             .loginPage("/authentication/require")
             .loginProcessingUrl("/authentication/form")
             .successHandler(authenticationSuccessHandler)
