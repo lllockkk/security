@@ -21,7 +21,7 @@ lllockkk:
     code:
       image:
         length: 4
-        url: /user/*
+        url:
 
 
 
